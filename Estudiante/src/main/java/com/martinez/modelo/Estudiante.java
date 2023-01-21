@@ -13,7 +13,14 @@ public class Estudiante {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nombres;
+	private int idCalificaciones;
 	
+	public int getIdCalificaciones() {
+		return idCalificaciones;
+	}
+	public void setIdCalificaciones(int idCalificaciones) {
+		this.idCalificaciones = idCalificaciones;
+	}
 	public int getId() {
 		return id;
 	}
