@@ -15,6 +15,7 @@
 	<description>api de los estudiantes de una institucion educativa</description>
 	<properties>
 		<java.version>19</java.version>
+		<java.compile>19</java.compile>
 	</properties>
 	<dependencies>
 		<dependency>

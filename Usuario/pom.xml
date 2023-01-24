@@ -14,7 +14,7 @@
 	<name>Usuario</name>
 	<description>api de los usuarios de una institucion educativa</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
