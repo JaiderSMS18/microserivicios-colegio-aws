@@ -23,4 +23,7 @@ public interface IUsuarioService {
     public List<Double> buscarCalificaciones(Integer idUsuario);
     
     public Integer buscarIdUsuarioByIdentificacionEstudiante(String idEstudiante);
+    
+    public boolean findExistUsuario(Integer id);
+    
 }

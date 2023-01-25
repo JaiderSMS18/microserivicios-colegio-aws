@@ -10,7 +10,7 @@ import com.martinez.modelo.Calificacion;
 
 public interface ICalificacionDao extends JpaRepository<Calificacion, Long> {
 
-	@Query(value = "select c.nota from calificacion c where c.usuario=:idUsuario", nativeQuery = true)
+	@Query(value = "select calificacion.nota from calificacion where calificacion.usuario=:idUsuario", nativeQuery = true)
 	public List<Double> findCalificacionesByUsuario(@Param("idUsuario") Integer idUsuario);
 	
 }

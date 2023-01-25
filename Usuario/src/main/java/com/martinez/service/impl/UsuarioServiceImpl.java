@@ -67,7 +67,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	@Transactional(readOnly = true)
 	public Integer buscarIdUsuarioByIdentificacionEstudiante(String idEstudiante) {
-		Integer identificacion = Integer.valueOf(usuarioRepo.findByUser_dni(idEstudiante));
-		return identificacion;
+		return usuarioRepo.findByUser_dni(idEstudiante);
+	}
+
+	@Override
+	public boolean findExistUsuario(Integer id) {
+		return usuarioRepo.existsById(id);
 	}
 }
