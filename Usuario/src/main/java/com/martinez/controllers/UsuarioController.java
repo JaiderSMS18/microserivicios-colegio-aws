@@ -19,22 +19,22 @@ import com.martinez.modelo.Calificacion;
 import com.martinez.service.IUsuarioService;
 
 @RestController
-public class UsuarioController implements WebMvcConfigurer {
+public class UsuarioController {//implements WebMvcConfigurer {
 
 	@Autowired
 	private IUsuarioService usuarioService;
 	
-	@Override
+	/*@Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("home");
-    }
+    }*/
 	
 	@GetMapping(value = "/listarNotas/{idEstudiante}")
 	public ResponseEntity<List<Double>> buscarCalificacionesDelusuario(@PathVariable("idEstudiante") String identificacionEstudiante){
 		if(usuarioService.buscarCalificaciones(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(identificacionEstudiante)).isEmpty()) {
 			return new ResponseEntity("No se encontro ningun resultado de las claificaciones "
 					+ "del estudiante con la identificacion: " + 
-					identificacionEstudiante, HttpStatus.BAD_REQUEST);
+					identificacionEstudiante, HttpStatus.FOUND);
 		}
 		return ResponseEntity.ok(usuarioService.buscarCalificaciones(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(identificacionEstudiante)));
 	}
