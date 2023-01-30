@@ -20,29 +20,29 @@ public class JwtProvider {
 
 	@Value("${com.tutorial.jwt.aws.identityPoolUrl}")
 	private String identityPoolUrl;
-	private static final String USERNAME_FIELD = "username";
-    private static final String AUTHORIZATION = "Authorization";
+	private static final String USERNAME_FIELD = "cognito:username";
+    private static final String AUTHORIZATION = "AutorizarToken";
     @Autowired
-    ConfigurableJWTProcessor configurableJWTProcessor;
+    ConfigurableJWTProcessor<?> configurableJWTProcessor;
 	
 	public Authentication authenticate(HttpServletRequest request) throws Exception {
         String token = request.getHeader(AUTHORIZATION);
         if (token != null) {
             JWTClaimsSet claims = configurableJWTProcessor.process(getToken(token), null);
             validacionDelToken(claims);
-            String username = getUsername(claims);
+            Object username = getUsername(claims);
             if (username != null) {
                 // TODO set roles
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
-                User user = new User(username, " ", authorities);
+                User user = new User(username.toString(), "", authorities);
                 return new JwtAuthenticator(authorities, user, claims);
             }
         }
         return null;
     }
 	
-	private String getUsername(JWTClaimsSet claims) {
-		return claims.getClaim(USERNAME_FIELD).toString();
+	private Object getUsername(JWTClaimsSet claims) {
+		return claims.getClaim(USERNAME_FIELD);
 	}
 	
 	private void validacionDelToken(JWTClaimsSet claims) throws Exception {

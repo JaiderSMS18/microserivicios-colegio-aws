@@ -30,9 +30,7 @@ public class Configurations {
                 .authenticated())
             .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
-            oauth2Login().and().logout().logoutSuccessUrl("/")
-            .permitAll();
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         
     http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
             /*.oauth2Login()
