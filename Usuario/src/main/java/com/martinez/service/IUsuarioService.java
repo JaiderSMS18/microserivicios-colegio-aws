@@ -3,6 +3,8 @@ package com.martinez.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 import com.martinez.modelo.Calificacion;
 import com.martinez.modelo.Usuario;
 
@@ -26,4 +28,7 @@ public interface IUsuarioService {
     
     public boolean findExistUsuario(Integer id);
     
+    public boolean findExistByUsernameCognito(String username);
+    
+    ResponseEntity<List<Double>> buscarAllCalificacionesUsuario(String identificacion);
 }

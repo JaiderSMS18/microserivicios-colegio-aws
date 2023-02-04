@@ -15,5 +15,4 @@ public interface IUsuarioDao extends JpaRepository<Usuario, Integer>{
 	
 	@Query(value = "select usuario.id_usuario from usuario where usuario.user_dni=:identificacionEstudiante", nativeQuery = true)
 	Integer findByUser_dni(@Param("identificacionEstudiante") String identificacionEstudiante);
-	
 }

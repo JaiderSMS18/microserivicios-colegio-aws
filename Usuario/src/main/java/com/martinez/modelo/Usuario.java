@@ -16,16 +16,14 @@ public class Usuario {
 	private int id_usuario;
 	
 	private String user_dni;
-	private String password;
 	
 	@OneToMany(mappedBy = "usuario")
 	private List<Calificacion> calificaciones;
 	
 	public Usuario() {}
 	
-	public Usuario(String user_dni, String password) {
+	public Usuario(String user_dni) {
 		this.user_dni = user_dni;
-		this.password = password;
 	}
 
 	public int getId_usuario() {
@@ -39,12 +37,6 @@ public class Usuario {
 	}
 	public void setUser_dni(String user_dni) {
 		this.user_dni = user_dni;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 }

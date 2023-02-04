@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,5 +75,24 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	@Override
 	public boolean findExistUsuario(Integer id) {
 		return usuarioRepo.existsById(id);
+	}
+
+	@Override
+	public boolean findExistByUsernameCognito(String username) {
+		if(usuarioRepo.findByUser_dni(username) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public ResponseEntity<List<Double>> buscarAllCalificacionesUsuario(String identificacion) {
+		if (!findExistByUsernameCognito(identificacion)) {
+			return ResponseEntity.notFound().header("El estudiante con la identificacion: " + identificacion + " no EXISTE").build();
+		} else if (calificacionRepo.findCalificacionesByUsuario(usuarioRepo.findByUser_dni(identificacion)).size() == 0 ||
+				calificacionRepo.findCalificacionesByUsuario(usuarioRepo.findByUser_dni(identificacion)).isEmpty()) {
+			return ResponseEntity.notFound().header("El estudiante no tiene calificaciones ID: " + identificacion + " no EXISTE").build();
+		}
+		return ResponseEntity.ok(calificacionRepo.findCalificacionesByUsuario(usuarioRepo.findByUser_dni(identificacion)));
 	}
 }

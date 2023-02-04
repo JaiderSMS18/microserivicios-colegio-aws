@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import com.martinez.service.IUsuarioService;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 
@@ -18,10 +19,14 @@ import jakarta.servlet.http.HttpServletRequest;
 @Component
 public class JwtProvider {
 
-	@Value("${com.tutorial.jwt.aws.identityPoolUrl}")
+	@Value("${spring.security.oauth2.client.provider.cognito.issuer-uri}")
 	private String identityPoolUrl;
 	private static final String USERNAME_FIELD = "cognito:username";
     private static final String AUTHORIZATION = "AutorizarToken";
+    
+    @Autowired
+    private IUsuarioService usuarioService;
+    
     @Autowired
     ConfigurableJWTProcessor<?> configurableJWTProcessor;
 	
@@ -30,8 +35,9 @@ public class JwtProvider {
         if (token != null) {
             JWTClaimsSet claims = configurableJWTProcessor.process(getToken(token), null);
             validacionDelToken(claims);
-            Object username = getUsername(claims);
-            if (username != null) {
+            String username = getUsername(claims);
+            System.out.println(username);
+            if (username != null &&  usuarioService.findExistByUsernameCognito("10903788")) {
                 // TODO set roles
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
                 User user = new User(username.toString(), "", authorities);
@@ -41,8 +47,8 @@ public class JwtProvider {
         return null;
     }
 	
-	private Object getUsername(JWTClaimsSet claims) {
-		return claims.getClaim(USERNAME_FIELD);
+	private String getUsername(JWTClaimsSet claims) {
+		return (String) claims.getClaim(USERNAME_FIELD);
 	}
 	
 	private void validacionDelToken(JWTClaimsSet claims) throws Exception {

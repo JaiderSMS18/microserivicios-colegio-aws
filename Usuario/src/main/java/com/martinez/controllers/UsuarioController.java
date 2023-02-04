@@ -17,39 +17,34 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.martinez.modelo.Calificacion;
 import com.martinez.service.IUsuarioService;
+import com.nimbusds.jwt.JWTClaimsSet;
 
 @RestController
-public class UsuarioController {//implements WebMvcConfigurer {
+public class UsuarioController {
 
 	@Autowired
 	private IUsuarioService usuarioService;
-	
-	/*@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("home");
-    }*/
-	
+
 	@GetMapping(value = "/listarNotas/{idEstudiante}")
-	public ResponseEntity<List<Double>> buscarCalificacionesDelusuario(@PathVariable("idEstudiante") String identificacionEstudiante){
-		if(usuarioService.buscarCalificaciones(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(identificacionEstudiante)).isEmpty()) {
-			return new ResponseEntity("No se encontro ningun resultado de las claificaciones "
-					+ "del estudiante con la identificacion: " + 
-					identificacionEstudiante, HttpStatus.FOUND);
-		}
-		return ResponseEntity.ok(usuarioService.buscarCalificaciones(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(identificacionEstudiante)));
+	public ResponseEntity<List<Double>> buscarCalificacionesByusuario(
+			@PathVariable("idEstudiante") String identificacionEstudiante) {
+		return usuarioService.buscarAllCalificacionesUsuario(identificacionEstudiante);
 	}
-	
-	
+
 	@PostMapping(value = "/guardarCalificacion/{identificacion}")
-	public ResponseEntity<String> guardarCalificacionByIdUsuario(@PathVariable("identificacion") Integer identificaci, @RequestBody Calificacion notas){
+	public ResponseEntity<String> guardarCalificacionByIdUsuario(@PathVariable("identificacion") Integer identificaci,
+			@RequestBody Calificacion notas) {
 		String idUsuario = String.valueOf(identificaci);
-		
-		if(usuarioService.findExistUsuario(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(idUsuario))) {
-			return new ResponseEntity<>("El estudiante con la identificacion: " + idUsuario + " no EXISTE", HttpStatus.FOUND);
-		} 
-		notas.setUsuario(usuarioService.encontrarUsuario(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(idUsuario)));
+		if (usuarioService
+				.encontrarUsuario(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(idUsuario)) != null) {
+			return new ResponseEntity<>("El estudiante con la identificacion: " + idUsuario + " no EXISTE",
+					HttpStatus.FOUND);
+		}
+		notas.setUsuario(
+				usuarioService.encontrarUsuario(usuarioService.buscarIdUsuarioByIdentificacionEstudiante(idUsuario)));
 		usuarioService.guardarCalificacion(notas);
-		return new ResponseEntity<>("se guardo la calificacion del estudiante con la identificacion: "  + idUsuario, HttpStatus.CREATED);
+		return new ResponseEntity<>("se guardo la calificacion del estudiante con la identificacion: " + idUsuario,
+				HttpStatus.CREATED);
 	}
-	
+
 }
