@@ -32,8 +32,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if(authentication != null)
                 SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
-            System.out.println("fallo en hacer el filtro ");
-            System.out.println(e);
+           System.out.println("fallo en hacer el filtro ");
+           System.out.println(e);
         }
         filterChain.doFilter(request, response);
     }

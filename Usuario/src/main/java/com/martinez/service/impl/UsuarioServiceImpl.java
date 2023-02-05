@@ -1,10 +1,8 @@
 package com.martinez.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,11 +71,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
+	@Transactional
 	public boolean findExistUsuario(Integer id) {
 		return usuarioRepo.existsById(id);
 	}
 
 	@Override
+	@Transactional
 	public boolean findExistByUsernameCognito(String username) {
 		if(usuarioRepo.findByUser_dni(username) != null) {
 			return true;
@@ -86,6 +86,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 	}
 
 	@Override
+	@Transactional
 	public ResponseEntity<List<Double>> buscarAllCalificacionesUsuario(String identificacion) {
 		if (!findExistByUsernameCognito(identificacion)) {
 			return ResponseEntity.notFound().header("El estudiante con la identificacion: " + identificacion + " no EXISTE").build();

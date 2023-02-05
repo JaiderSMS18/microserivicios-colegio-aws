@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.martinez.configurations.JwtProvider;
 import com.martinez.modelo.Calificacion;
 import com.martinez.service.IUsuarioService;
 import com.nimbusds.jwt.JWTClaimsSet;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 public class UsuarioController {
@@ -27,7 +30,9 @@ public class UsuarioController {
 
 	@GetMapping(value = "/listarNotas/{idEstudiante}")
 	public ResponseEntity<List<Double>> buscarCalificacionesByusuario(
-			@PathVariable("idEstudiante") String identificacionEstudiante) {
+			@PathVariable("idEstudiante") String identificacionEstudiante,
+			HttpServletResponse response) {
+		response.addHeader("AutorizarToken", "devuelto");
 		return usuarioService.buscarAllCalificacionesUsuario(identificacionEstudiante);
 	}
 

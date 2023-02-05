@@ -15,6 +15,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtProvider {
@@ -36,9 +37,7 @@ public class JwtProvider {
             JWTClaimsSet claims = configurableJWTProcessor.process(getToken(token), null);
             validacionDelToken(claims);
             String username = getUsername(claims);
-            System.out.println(username);
-            if (username != null &&  usuarioService.findExistByUsernameCognito("10903788")) {
-                // TODO set roles
+            if (username != null &&  usuarioService.findExistByUsernameCognito(username)) {
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
                 User user = new User(username.toString(), "", authorities);
                 return new JwtAuthenticator(authorities, user, claims);
