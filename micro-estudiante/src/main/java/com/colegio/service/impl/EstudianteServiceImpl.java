@@ -1,6 +1,7 @@
 package com.colegio.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,13 +41,23 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	}
 
 	@Override
-	public ResponseEntity<Estudiante> buscarEstudiante(Integer idEstudiante) {
-		return null;
+	public ResponseEntity<Optional<Estudiante>> buscarEstudiante(Integer idEstudiante) {
+		if(!iEstudianteRepo.existsById(idEstudiante)) {
+			return new ResponseEntity("No se encontro ningun estudiante con el id: " + idEstudiante, HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(iEstudianteRepo.findById(idEstudiante));
 	}
 
 	@Override
 	public ResponseEntity<String> deleteEstudiante(Integer idEstudiante) {
-		return null;
+		if(!iEstudianteRepo.existsById(idEstudiante)) {
+			return ResponseEntity.badRequest().body("el estudiante no existe");
+		}
+		iEstudianteRepo.deleteById(idEstudiante);
+		if(iEstudianteRepo.existsById(idEstudiante)) {
+			return ResponseEntity.internalServerError().body("se produjo un error no se pudo eliminar al estudiante");
+		}
+		return ResponseEntity.ok("El estudiante con el id: " + idEstudiante + " fue eliminado exitosamente!!!");
 	}
 
 	

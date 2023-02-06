@@ -1,9 +1,11 @@
 package com.colegio.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +34,18 @@ public class EstudianteController {
 		return estudianteService.saveEstudiante(estudiante);
 	}
 	
-	@PutMapping(value = "/{idEstudiante}")
+	@PutMapping(value = "/update/{idEstudiante}")
 	public ResponseEntity<Estudiante> actualizarEstudiante(@RequestBody Estudiante estudiante, @PathVariable("idEstudiante") Integer idEstudiante) {
 		return estudianteService.updateEstudiante(estudiante, idEstudiante);
+	}
+	
+	@DeleteMapping(value = "/eliminar/{idEstudiante}")
+	public ResponseEntity<String> eliminarEstudiante(@PathVariable("idEstudiante") Integer idEstudiante) {
+		return estudianteService.deleteEstudiante(idEstudiante);
+	}
+	
+	@GetMapping(value = "/buscar/{idEstudiante}")
+	public ResponseEntity<Optional<Estudiante>> buscarEstudiante(@PathVariable("idEstudiante") Integer idEstudiante) {
+		return estudianteService.buscarEstudiante(idEstudiante);
 	}
 }
