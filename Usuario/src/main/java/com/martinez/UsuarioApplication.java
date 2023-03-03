@@ -41,9 +41,13 @@ public class UsuarioApplication {
 		ResourceRetriever resourceRetriever = new DefaultResourceRetriever(connectionTimeout, readTimeout);
 		URL jwkURL = new URL(jwkUrl);
 		JWKSource jwkSource = new RemoteJWKSet(jwkURL, resourceRetriever);
+		System.out.println(jwkSource);
 		ConfigurableJWTProcessor jwtProcessor = new DefaultJWTProcessor();
+		System.out.println(jwtProcessor);
 		JWSKeySelector keySelector = new JWSVerificationKeySelector(JWSAlgorithm.RS256, jwkSource);
+		System.out.println(keySelector);		
 		jwtProcessor.setJWSKeySelector(keySelector);
+		System.out.println(jwtProcessor);		
 		return jwtProcessor;
 	}
 

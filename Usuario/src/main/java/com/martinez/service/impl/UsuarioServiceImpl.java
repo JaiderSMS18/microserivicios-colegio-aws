@@ -3,21 +3,15 @@ package com.martinez.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.martinez.modelo.Calificacion;
 import com.martinez.modelo.Usuario;
-import com.martinez.repositorio.ICalificacionDao;
 import com.martinez.repositorio.IUsuarioDao;
 import com.martinez.service.IUsuarioService;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
-
-	@Autowired
-	private ICalificacionDao calificacionRepo;
 	
 	@Autowired
 	private IUsuarioDao usuarioRepo;
@@ -46,23 +40,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return usuarioRepo.findById(idUsuario).orElse(null);
 	}
 
-	@Override
-	@Transactional
-	public List<Calificacion> calificacionesAll() {
-		return calificacionRepo.findAll();
-	}
 
-	@Override
-	@Transactional
-	public void guardarCalificacion(Calificacion calificacion) {
-		calificacionRepo.save(calificacion);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Double> buscarCalificaciones(Integer idUsuario) {
-		return calificacionRepo.findCalificacionesByUsuario(idUsuario);
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -85,15 +63,4 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		return false;
 	}
 
-	@Override
-	@Transactional
-	public ResponseEntity<List<Double>> buscarAllCalificacionesUsuario(String identificacion) {
-		if (!findExistByUsernameCognito(identificacion)) {
-			return ResponseEntity.notFound().header("El estudiante con la identificacion: " + identificacion + " no EXISTE").build();
-		} else if (calificacionRepo.findCalificacionesByUsuario(usuarioRepo.findByUser_dni(identificacion)).size() == 0 ||
-				calificacionRepo.findCalificacionesByUsuario(usuarioRepo.findByUser_dni(identificacion)).isEmpty()) {
-			return ResponseEntity.notFound().header("El estudiante no tiene calificaciones ID: " + identificacion + " no EXISTE").build();
-		}
-		return ResponseEntity.ok(calificacionRepo.findCalificacionesByUsuario(usuarioRepo.findByUser_dni(identificacion)));
-	}
 }

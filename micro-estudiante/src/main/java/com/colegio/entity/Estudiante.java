@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "estudiantes")
-public class Estudiante {
+public class Estudiante{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,20 +17,24 @@ public class Estudiante {
 	private String apellidos;
 	private String genero;
 	private String direccion;
-	private String correoElectronico;
+	private String correo_electronico;
 	private String curso;
+	private Double promedio;
+	private Integer id_usuario;
 	
 	public Estudiante() {}
 
 	
 	public Estudiante( String nombres, String apellidos, String genero, String direccion,
-			String correoElectronico, String curso) {
+			String correoElectronico, String curso, Double nota, Integer id_usuario, Integer codigo_materia) {
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.genero = genero;
 		this.direccion = direccion;
-		this.correoElectronico = correoElectronico;
+		this.correo_electronico = correoElectronico;
 		this.curso = curso;
+		this.promedio = nota;
+		this.id_usuario = id_usuario;
 	}
 
 	public Integer getId() {
@@ -64,11 +68,11 @@ public class Estudiante {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	public String getCorreoElectronico() {
-		return correoElectronico;
+	public String getCorreo_electronico() {
+		return correo_electronico;
 	}
-	public void setCorreoElectronico(String correoElectronico) {
-		this.correoElectronico = correoElectronico;
+	public void setCorreo_electronico(String correoElectronico) {
+		this.correo_electronico = correoElectronico;
 	}
 	public String getCurso() {
 		return curso;
@@ -76,11 +80,31 @@ public class Estudiante {
 	public void setCurso(String curso) {
 		this.curso = curso;
 	}
-	
+
+	public Double getPromedio() {
+		return promedio;
+	}
+
+	public void setPromedio(Double nota) {
+		this.promedio = nota;
+	}
+
+
+	public Integer getId_usuario() {
+		return id_usuario;
+	}
+
+
+	public void setId_usuario(Integer id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Estudiante [id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", genero=" + genero
-				+ ", direccion=" + direccion + ", correoElectronico=" + correoElectronico + ", curso=" + curso + "]";
+				+ ", direccion=" + direccion + ", correoElectronico=" + correo_electronico + ", curso=" + curso
+				+ ", promedio=" + promedio + ", idUsuario=" + id_usuario + "]";
 	}
 	
 }

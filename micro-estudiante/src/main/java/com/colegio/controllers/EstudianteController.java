@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.colegio.entity.Estudiante;
 import com.colegio.service.IEstudianteService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @RestController
 @RequestMapping(value = "/estudiante")
 public class EstudianteController {
 
+	@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
 	@Autowired
 	private IEstudianteService estudianteService;
 	
@@ -43,6 +45,7 @@ public class EstudianteController {
 	public ResponseEntity<String> eliminarEstudiante(@PathVariable("idEstudiante") Integer idEstudiante) {
 		return estudianteService.deleteEstudiante(idEstudiante);
 	}
+	
 	
 	@GetMapping(value = "/buscar/{idEstudiante}")
 	public ResponseEntity<Optional<Estudiante>> buscarEstudiante(@PathVariable("idEstudiante") Integer idEstudiante) {

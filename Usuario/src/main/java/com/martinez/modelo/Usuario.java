@@ -1,11 +1,8 @@
 package com.martinez.modelo;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Id;
 
 @Entity
@@ -17,8 +14,6 @@ public class Usuario {
 	
 	private String user_dni;
 	
-	@OneToMany(mappedBy = "usuario")
-	private List<Calificacion> calificaciones;
 	
 	public Usuario() {}
 	
